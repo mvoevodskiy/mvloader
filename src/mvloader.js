@@ -47,17 +47,27 @@ class MVLoader {
     init () {
         // console.log('MV LOADER. INIT START');
         Promise.resolve()
+            .then(() => this.loadHandlers())
+            .then(() => this.loadControllers())
             .then(() => this.initHandlers())
             .then(() => this.initControllers());
     }
 
+    async loadControllers () {
+        return this.LTools.loadClassesFromConfig(this, 'controllers');
+    }
+
+    async loadHandlers () {
+        return this.LTools.loadClassesFromConfig(this, 'handlers');
+    }
+
     async initControllers () {
-        return this.LTools.loadClassesFromConfig(this, 'controllers')
+        return this.LTools.initClassesFromConfig(this, 'controllers')
             .then(this.LTools.assignUpControllersToProcess());
     }
 
     async initHandlers () {
-        return this.LTools.loadClassesFromConfig(this, 'handlers');
+        return this.LTools.initClassesFromConfig(this, 'handlers');
     }
 
 }

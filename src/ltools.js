@@ -1,3 +1,9 @@
+/**
+ * @class LTools
+ *
+ * @property {MVLoader} App
+ * @property {MVTools} MT
+ */
 class LTools {
     constructor(App) {
         this.L = App;
@@ -14,7 +20,7 @@ class LTools {
     }
 
     assignControllerToProcess (assignee) {
-        if (!this.L.MT.empty(assignee.caption)) {
+        if (!this.MT.empty(assignee.caption)) {
             this.assignToProcess(assignee, assignee.caption)
         }
     }
@@ -32,18 +38,20 @@ class LTools {
         });
     }
 
-    async loadClassesFromConfig (src, type, init = true, onlyName = '') {
+    async loadClassesFromConfig (src, type, onlyName = '') {
         // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG START');
-        for (let name in src.config.classes[type]) {
-            if (src.config.classes[type].hasOwnProperty(name)) {
+        let classes = src.config.classes[type];
+        for (let name in classes) {
+            if (classes.hasOwnProperty(name)) {
                 if (onlyName === '' || onlyName === name) {
-                    let objectConfig = this.L.MT.extract(type + '.' + name, src.config, {});
+                    let objectConfig = this.MT.extract(type + '.' + name, src.config, {});
                     // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG. CONFIG PATH: ' + type + '.' + name + ', CONFIG: ', objectConfig);
-                    let object = await this.raiseClass(
-                        src.config.classes[type][name],
-                        objectConfig,
-                        init
-                    );
+
+                    if (!this.MT.empty(classes[name].exportConfig)) {
+                        src.loadConfig(classes[name].exportConfig);
+                    }
+
+                    let object = await this.raiseClass(classes[name], objectConfig);
                     if (object !== false) {
                         src[type][name] = object;
                     }
@@ -53,13 +61,27 @@ class LTools {
         // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG END');
     }
 
-    async raiseClass (proto, config = {}, init = false) {
+    async initClassesFromConfig (src, type, onlyName = '') {
+        // console.log('MV LOADER TOOLS. INIT CLASSES FROM CONFIG START');
+        let classes = src.config.classes[type];
+        for (let name in classes) {
+            if (classes.hasOwnProperty(name)) {
+                if (onlyName === '' || onlyName === name) {
+                    try {
+                        src[type][name].init();
+                    } catch (e) {
+
+                    }
+                }
+            }
+        }
+        // console.log('MV LOADER TOOLS. INIT CLASSES FROM CONFIG END');
+    }
+
+    raiseClass (proto, config = {}) {
         let object = false;
         try {
             object = new proto(this.L, config);
-            if (init) {
-                await object.init();
-            }
         } catch (e) {
             object = false;
             console.error('RAISE CLASS ' + proto.name + ' FAILED. SKIPPED. ERROR: ', e);
