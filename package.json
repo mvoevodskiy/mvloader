@@ -1,0 +1,22 @@
+{
+  "name": "mvloader",
+  "version": "0.0.1",
+  "description": "Base loader for projects",
+  "main": "src/mvloader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mvoevodskiy/mvloader.git"
+  },
+  "author": "mvoevodskiy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mvoevodskiy/mvloader/issues"
+  },
+  "homepage": "https://github.com/mvoevodskiy/mvloader#readme",
+  "dependencies": {
+    "mvtools": "git+https://github.com/mvoevodskiy/mvtools.git"
+  }
+}
