@@ -30,18 +30,18 @@ class MVLoader {
     };
     handlers = {};
 
-    constructor (config) {
+    constructor (...config) {
         this.MT = new MVTools;
         this.LTools = new LTools(this);
-        this.loadConfig(config);
+        this.loadConfig(...config);
     }
 
     loadToDefaults (config) {
         this.defaults = this.MT.mergeRecursive(this.defaults, config);
     }
 
-    loadConfig (config) {
-        this.config = this.MT.mergeRecursive(this.defaults, this.config, config);
+    loadConfig (...config) {
+        this.config = this.MT.mergeRecursive(this.defaults, this.config, ...config);
     }
 
     init () {
