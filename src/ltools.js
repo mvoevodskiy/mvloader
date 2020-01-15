@@ -12,9 +12,9 @@ class LTools {
     }
 
     assignUpControllersToProcess() {
-        for (let key in this.L.config.controllers) {
-            if (this.L.config.controllers.hasOwnProperty(key)) {
-                this.assignControllerToProcess(this.L.config.controllers[key]);
+        for (let key in this.L.controllers) {
+            if (this.L.controllers.hasOwnProperty(key)) {
+                this.assignControllerToProcess(this.L.controllers[key]);
             }
         }
     }
