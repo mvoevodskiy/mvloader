@@ -21,14 +21,17 @@ class MVLoader {
         classes: {
             controllers: {},
             handlers: {},
+            semis: {},
         },
         controllers: {},
         db: {
             name: 'mvloader',
         },
         handlers: {},
+        semis: {},
     };
     handlers = {};
+    semis = {};
 
     constructor (...config) {
         this.MT = new MVTools;
@@ -55,11 +58,15 @@ class MVLoader {
 
     async loadControllers () {
         return this.LTools.loadClassesFromConfig(this, 'controllers')
-            .then(() => this.LTools.assignUpControllersToProcess());;
+            .then(() => this.LTools.assignUpControllersToProcess());
     }
 
     async loadHandlers () {
         return this.LTools.loadClassesFromConfig(this, 'handlers');
+    }
+
+    async loadSemis () {
+        return this.LTools.loadClassesFromConfig(this, 'semis');
     }
 
     async initControllers () {
@@ -68,6 +75,10 @@ class MVLoader {
 
     async initHandlers () {
         return this.LTools.initClassesFromConfig(this, 'handlers');
+    }
+
+    async initSemis () {
+        return this.LTools.initClassesFromConfig(this, 'semis');
     }
 
 }
