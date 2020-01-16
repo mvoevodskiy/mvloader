@@ -68,6 +68,8 @@ class LTools {
             if (classes.hasOwnProperty(name)) {
                 if (onlyName === '' || onlyName === name) {
                     try {
+                        let objectConfig = this.MT.extract(type + '.' + name, src.config, {});
+                        src[type][name].loadConfig(objectConfig);
                         src[type][name].init();
                     } catch (e) {
 
