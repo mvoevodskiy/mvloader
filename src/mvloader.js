@@ -47,13 +47,15 @@ class MVLoader {
         this.config = this.MT.mergeRecursive(this.defaults, this.config, ...config);
     }
 
-    init () {
+    async init () {
         // console.log('MV LOADER. INIT START');
-        Promise.resolve()
+        return Promise.resolve()
             .then(() => this.loadHandlers())
             .then(() => this.loadControllers())
+            .then(() => this.loadSemis())
             .then(() => this.initHandlers())
-            .then(() => this.initControllers());
+            .then(() => this.initControllers())
+            .then(() => this.initSemis());
     }
 
     async loadControllers () {
