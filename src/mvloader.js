@@ -56,19 +56,19 @@ class MVLoader {
     async init () {
         // console.log('MV LOADER. INIT START');
         return Promise.resolve()
-            .then(() => this.loadClasses())
-            .then(() => this.initClasses());
+            .then(() => this.loadExtObjects())
+            .then(() => this.initExtClasses());
     }
 
-    async loadClasses () {
+    async loadExtObjects () {
         for (let type of Object.keys(this.config.ext.classes)) {
-            await this.LTools.loadClassesFromConfig(this, type);
+            await this.LTools.loadExtObjects(this, type);
         }
     }
 
-    async initClasses () {
+    async initExtClasses () {
         for (let type of Object.keys(this.ext.classes)) {
-            await this.LTools.initClassesFromConfig(this, type);
+            await this.LTools.initExtObjects(this, type);
         }
     }
 
