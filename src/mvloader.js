@@ -56,36 +56,20 @@ class MVLoader {
     async init () {
         // console.log('MV LOADER. INIT START');
         return Promise.resolve()
-            .then(() => this.loadHandlers())
-            .then(() => this.loadControllers())
-            .then(() => this.loadSemis())
-            .then(() => this.initHandlers())
-            .then(() => this.initControllers())
-            .then(() => this.initSemis());
+            .then(() => this.loadClasses())
+            .then(() => this.initClasses());
     }
 
-    async loadControllers () {
-        return this.LTools.loadClassesFromConfig(this, 'controllers');
+    async loadClasses () {
+        for (let type of Object.keys(this.config.ext.classes)) {
+            await this.LTools.loadClassesFromConfig(this, type);
+        }
     }
 
-    async loadHandlers () {
-        return this.LTools.loadClassesFromConfig(this, 'handlers');
-    }
-
-    async loadSemis () {
-        return this.LTools.loadClassesFromConfig(this, 'semis');
-    }
-
-    async initControllers () {
-        return this.LTools.initClassesFromConfig(this, 'controllers')
-    }
-
-    async initHandlers () {
-        return this.LTools.initClassesFromConfig(this, 'handlers');
-    }
-
-    async initSemis () {
-        return this.LTools.initClassesFromConfig(this, 'semis');
+    async initClasses () {
+        for (let type of Object.keys(this.ext.classes)) {
+            await this.LTools.initClassesFromConfig(this, type);
+        }
     }
 
 }
