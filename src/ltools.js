@@ -11,15 +11,7 @@ class LTools {
 
     }
 
-    assignUpControllersToProcess() {
-        for (let key in this.L.controllers) {
-            if (this.L.controllers.hasOwnProperty(key)) {
-                this.assignControllerToProcess(this.L.controllers[key]);
-            }
-        }
-    }
-
-    assignControllerToProcess (assignee) {
+    assignObjectToProcess (assignee) {
         if (!this.MT.empty(assignee.caption)) {
             this.assignToProcess(assignee, assignee.caption)
         }
@@ -54,6 +46,7 @@ class LTools {
                     let object = await this.raiseClass(classes[name], objectConfig);
                     if (object !== false) {
                         src.ext[type][name] = object;
+                        this.assignObjectToProcess(src.ext[type][name]);
                     }
                 }
             }

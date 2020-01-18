@@ -65,8 +65,7 @@ class MVLoader {
     }
 
     async loadControllers () {
-        return this.LTools.loadClassesFromConfig(this, 'controllers')
-            .then(() => this.LTools.assignUpControllersToProcess());
+        return this.LTools.loadClassesFromConfig(this, 'controllers');
     }
 
     async loadHandlers () {
