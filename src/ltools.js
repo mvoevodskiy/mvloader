@@ -40,11 +40,11 @@ class LTools {
 
     async loadClassesFromConfig (src, type, onlyName = '') {
         // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG START');
-        let classes = src.config.classes[type];
+        let classes = src.config.ext.classes[type];
         for (let name in classes) {
             if (classes.hasOwnProperty(name)) {
                 if (onlyName === '' || onlyName === name) {
-                    let objectConfig = this.MT.extract(type + '.' + name, src.config, {});
+                    let objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {});
                     // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG. CONFIG PATH: ' + type + '.' + name + ', CONFIG: ', objectConfig);
 
                     if (!this.MT.empty(classes[name].exportConfig)) {
@@ -53,7 +53,7 @@ class LTools {
 
                     let object = await this.raiseClass(classes[name], objectConfig);
                     if (object !== false) {
-                        src[type][name] = object;
+                        src.ext[type][name] = object;
                     }
                 }
             }
@@ -63,12 +63,12 @@ class LTools {
 
     async initClassesFromConfig (src, type, onlyName = '') {
         // console.log('MV LOADER TOOLS. INIT CLASSES FROM CONFIG START');
-        let classes = src.config.classes[type];
+        let classes = src.config.ext.classes[type];
         for (let name in classes) {
             if (classes.hasOwnProperty(name)) {
                 if (onlyName === '' || onlyName === name) {
                     try {
-                        let objectConfig = this.MT.extract(type + '.' + name, src.config, {});
+                        let objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {});
                         src[type][name].loadConfig(objectConfig);
                         src[type][name].init();
                     } catch (e) {

@@ -16,22 +16,28 @@ const LTools = require('./ltools');
 class MVLoader {
 
     config = {};
-    controllers = {};
     defaults = {
-        classes: {
-            controllers: {},
-            handlers: {},
-            semis: {},
+        ext: {
+            classes: {
+                controllers: {},
+                handlers: {},
+                semis: {},
+            },
+            configs: {
+                controllers: {},
+                handlers: {},
+                semis: {},
+            }
         },
-        controllers: {},
         db: {
             name: 'mvloader',
         },
+    };
+    ext = {
+        controllers: {},
         handlers: {},
         semis: {},
     };
-    handlers = {};
-    semis = {};
 
     constructor (...config) {
         this.MT = new MVTools;
