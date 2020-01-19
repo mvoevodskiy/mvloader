@@ -77,6 +77,24 @@ class LTools {
         // console.log('MV LOADER TOOLS. INIT CLASSES FROM CONFIG END');
     }
 
+    async initFinishExtObjects (src, type, onlyName = '') {
+        // console.log('MV LOADER TOOLS. INIT CLASSES FROM CONFIG START');
+        let objects = src.ext[type];
+        if (this.MT.empty(objects)) {
+            return;
+        }
+        for (let name in objects) {
+            if (objects.hasOwnProperty(name)) {
+                if (onlyName === '' || onlyName === name) {
+                    try {
+                        src.ext[type][name].initFinish();
+                    } catch (e) {}
+                }
+            }
+        }
+        // console.log('MV LOADER TOOLS. INIT FINISHED CLASSES FROM CONFIG END');
+    }
+
     raiseClass (proto, config = {}) {
         let object = false;
         try {
