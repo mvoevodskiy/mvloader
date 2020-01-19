@@ -19,9 +19,9 @@ class MVLoader {
     defaults = {
         ext: {
             classes: {
+                semis: {},
                 controllers: {},
                 handlers: {},
-                semis: {},
             },
             configs: {
                 controllers: {},
