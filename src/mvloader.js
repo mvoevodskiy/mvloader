@@ -67,7 +67,7 @@ class MVLoader {
     }
 
     async initExtClasses () {
-        for (let type of Object.keys(this.ext.classes)) {
+        for (let type of Object.keys(this.ext)) {
             await this.LTools.initExtObjects(this, type);
         }
     }
