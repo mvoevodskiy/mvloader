@@ -1,4 +1,5 @@
 const MVTools = require('mvtools');
+const MVLoaderBase = require('./mvloaderbase');
 const LTools = require('./ltools');
 
 
@@ -13,9 +14,8 @@ const LTools = require('./ltools');
  * @property {MVTools} MT
  * @property {LTools} LTools
  */
-class MVLoader {
+class MVLoader extends MVLoaderBase {
 
-    config = {};
     defaults = {
         ext: {
             classes: {
@@ -39,18 +39,15 @@ class MVLoader {
         semis: {},
     };
 
+    DB = null;
+
     constructor (...config) {
-        this.MT = new MVTools;
+        super(...config);
         this.LTools = new LTools(this);
-        this.loadConfig(...config);
     }
 
     loadToDefaults (config) {
         this.defaults = this.MT.mergeRecursive(this.defaults, config);
-    }
-
-    loadConfig (...config) {
-        this.config = this.MT.mergeRecursive(this.defaults, this.config, ...config);
     }
 
     async init () {
