@@ -16,38 +16,34 @@ const LTools = require('./ltools');
  */
 class MVLoader extends MVLoaderBase {
 
-    defaults = {
-        ext: {
-            classes: {
-                semis: {},
-                controllers: {},
-                handlers: {},
-            },
-            configs: {
-                controllers: {},
-                handlers: {},
-                semis: {},
-            }
-        },
-        db: {
-            name: 'mvloader',
-        },
-    };
     ext = {
+        semis: {},
         controllers: {},
         handlers: {},
-        semis: {},
     };
 
     DB = null;
 
     constructor (...config) {
-        super(...config);
+        let defaults = {
+            ext: {
+                classes: {
+                    semis: {},
+                    controllers: {},
+                    handlers: {},
+                },
+                configs: {
+                    controllers: {},
+                    handlers: {},
+                    semis: {},
+                }
+            },
+            db: {
+                name: 'mvloader',
+            },
+        };
+        super(defaults, ...config);
         this.LTools = new LTools(this);
-    }
-
-    loadToDefaults (config) {
-        this.defaults = this.MT.mergeRecursive(this.defaults, config);
     }
 
     async init () {
