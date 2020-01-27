@@ -32,25 +32,31 @@ class LTools {
 
     async loadExtObjects (src, type, onlyName = '') {
         // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG START');
-        let classes = src.config.ext.classes[type];
-        for (let name in classes) {
-            if (classes.hasOwnProperty(name)) {
-                if (onlyName === '' || onlyName === name) {
-                    let objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {});
-                    // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG. CONFIG PATH: ' + type + '.' + name + ', CONFIG: ', objectConfig);
+        let processed = [];
+        let next = this.MT.arrayDiff(Object.keys(src.config.ext.classes[type]), processed);
+        while (next.length > 0) {
+            for (let name of next) {
+                if (src.config.ext.classes[type].hasOwnProperty(name)) {
+                    if (onlyName === '' || onlyName === name) {
+                        // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG. CONFIG PATH: ' + type + '.' + name + ', CONFIG: ', objectConfig);
 
-                    if (!this.MT.empty(classes[name].exportConfig)) {
-                        src.loadConfig(classes[name].exportConfig);
-                    }
+                        if (!this.MT.empty(src.config.ext.classes[type][name].exportConfig)) {
+                            src.loadConfig(src.config.ext.classes[type][name].exportConfig);
+                        }
 
-                    let object = await this.raiseClass(classes[name], objectConfig);
-                    if (object !== false) {
-                        src.ext[type] = src.ext[type] || {};
-                        src.ext[type][name] = object;
-                        this.assignObjectToProcess(src.ext[type][name]);
+                        let objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {});
+                        let object = await this.raiseClass(src.config.ext.classes[type][name], objectConfig);
+                        if (object !== false) {
+                            src.ext[type] = src.ext[type] || {};
+                            src.ext[type][name] = object;
+                            this.assignObjectToProcess(src.ext[type][name]);
+                        }
                     }
+                    processed.push(name);
                 }
             }
+            next = this.MT.arrayDiff(Object.keys(src.config.ext.classes[type]), processed);
+            // console.log(Object.keys(src.config.ext.classes[type]), processed, next);
         }
         // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG END');
     }
