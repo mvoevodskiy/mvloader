@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/mvoevodskiy/mvloader#readme",
   "dependencies": {
-    "mvtools": "0.0.1"
+    "mvtools": "^1.0.1"
   }
 }
