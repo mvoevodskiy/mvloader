@@ -23,6 +23,7 @@ class MVLoader extends MVLoaderBase {
     };
 
     DB = null;
+    services = {};
 
     constructor (...config) {
         let defaults = {
