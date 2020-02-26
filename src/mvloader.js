@@ -68,6 +68,10 @@ class MVLoader extends MVLoaderBase {
     }
 
     async initFinishExtClasses () {
+        // FALLBACK FOR this.DB property
+        if (!this.MT.empty(this.DB) && this.MT.empty(this.services.DB)) {
+            this.services.DB = this.DB;
+        }
         for (let type of Object.keys(this.ext)) {
             await this.LTools.initFinishExtObjects(this, type);
         }
