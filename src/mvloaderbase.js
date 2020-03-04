@@ -14,7 +14,6 @@ class MVLoaderBase {
 
     caption = '';
     config = {};
-    defaults = {};
 
     constructor (...config) {
         this.MT = new MVTools;
