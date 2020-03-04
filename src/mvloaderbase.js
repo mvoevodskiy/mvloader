@@ -10,6 +10,7 @@ const MVTools = require('mvtools');
  */
 class MVLoaderBase {
 
+    caption = '';
     config = {};
     defaults = {};
 
