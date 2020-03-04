@@ -10,7 +10,12 @@ const MVTools = require('mvtools');
  */
 class MVLoaderBase {
 
-    static exportConfig = {ext: {}};
+    static exportConfig = {
+        ext: {
+            classes: {},
+            configs: {},
+        }
+    };
 
     caption = '';
     config = {};
