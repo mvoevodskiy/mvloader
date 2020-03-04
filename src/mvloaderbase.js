@@ -10,6 +10,8 @@ const MVTools = require('mvtools');
  */
 class MVLoaderBase {
 
+    static exportConfig = {ext: {}};
+
     caption = '';
     config = {};
     defaults = {};
