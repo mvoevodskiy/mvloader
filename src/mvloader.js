@@ -79,4 +79,4 @@ class MVLoader extends MVLoaderBase {
 
 }
 
-module.exports = MVLoader;
+module.exports = {MVLoader, MVLoaderBase};
