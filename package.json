@@ -1,6 +1,6 @@
 {
   "name": "mvloader",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Base loader for projects",
   "main": "src/mvloader.js",
   "scripts": {
