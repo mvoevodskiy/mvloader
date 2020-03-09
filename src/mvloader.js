@@ -50,24 +50,31 @@ class MVLoader extends MVLoaderBase {
     async init () {
         // console.log('MV LOADER. INIT START');
         return Promise.resolve()
-            .then(() => this.loadExtObjects())
-            .then(() => this.initExtClasses())
-            .then(() => this.initFinishExtClasses());
+            .then(() => this.loadExtConfigs())
+            .then(() => this.raiseExtObjects())
+            .then(() => this.initExtObjects())
+            .then(() => this.initFinishExtObjects());
     }
 
-    async loadExtObjects () {
+    async loadExtConfigs () {
         for (let type of Object.keys(this.config.ext.classes)) {
-            await this.LTools.loadExtObjects(this, type);
+            await this.LTools.loadExtConfigs(this, type);
         }
     }
 
-    async initExtClasses () {
+    async raiseExtObjects () {
+        for (let type of Object.keys(this.config.ext.classes)) {
+            await this.LTools.raiseExtObjects(this, type);
+        }
+    }
+
+    async initExtObjects () {
         for (let type of Object.keys(this.ext)) {
             await this.LTools.initExtObjects(this, type);
         }
     }
 
-    async initFinishExtClasses () {
+    async initFinishExtObjects () {
         // FALLBACK FOR this.DB property
         if (!this.MT.empty(this.DB) && this.MT.empty(this.services.DB)) {
             this.services.DB = this.DB;

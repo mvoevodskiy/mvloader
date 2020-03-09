@@ -30,7 +30,7 @@ class LTools {
         });
     }
 
-    async loadExtObjects (src, type, onlyName = '') {
+    async loadExtConfigs (src, type, onlyName = '') {
         // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG START');
         let processed = [];
         let next = this.MT.arrayDiff(Object.keys(src.config.ext.classes[type]), processed);
@@ -43,6 +43,25 @@ class LTools {
                         if (!this.MT.empty(src.config.ext.classes[type][name].exportConfig)) {
                             src.loadConfig(src.config.ext.classes[type][name].exportConfig);
                         }
+                    }
+                    processed.push(name);
+                }
+            }
+            next = this.MT.arrayDiff(Object.keys(src.config.ext.classes[type]), processed);
+            // console.log(Object.keys(src.config.ext.classes[type]), processed, next);
+        }
+        // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG END');
+    }
+
+    async raiseExtObjects (src, type, onlyName = '') {
+        // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG START');
+        let processed = [];
+        let next = this.MT.arrayDiff(Object.keys(src.config.ext.classes[type]), processed);
+        while (next.length > 0) {
+            for (let name of next) {
+                if (src.config.ext.classes[type].hasOwnProperty(name)) {
+                    if (onlyName === '' || onlyName === name) {
+                        // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG. CONFIG PATH: ' + type + '.' + name + ', CONFIG: ', objectConfig);
 
                         let objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {});
                         let object = await this.raiseClass(src.config.ext.classes[type][name], objectConfig);
