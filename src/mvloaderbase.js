@@ -26,7 +26,10 @@ class MVLoaderBase {
     }
 
     loadConfig (...config) {
-        this.config = this.MT.mergeRecursive(this.defaults, this.config, ...config);
+        if (this.MT.empty(this.config)) {
+            this.config = this.MT.copyObject(this.defaults);
+        }
+        this.config = this.MT.mergeRecursive(this.config, ...config);
     }
 
     async init () {}
