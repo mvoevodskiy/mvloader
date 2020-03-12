@@ -37,7 +37,7 @@ class LTools {
         while (next.length > 0) {
             for (let name of next) {
                 if (src.config.ext.classes[type].hasOwnProperty(name)) {
-                    if (onlyName === '' || onlyName === name) {
+                    if ((onlyName === '' || onlyName === name) && src.config.ext.classes[type][name].hasOwnProperty('exportConfig')) {
                         // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG. CONFIG PATH: ' + type + '.' + name + ', CONFIG: ', objectConfig);
 
                         if (!this.MT.empty(src.config.ext.classes[type][name].exportConfig)) {
