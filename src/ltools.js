@@ -91,10 +91,16 @@ class LTools {
                 if (onlyName === '' || onlyName === name) {
                     try {
                         let objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {});
-                        src.ext[type][name].loadConfig(objectConfig);
-                        src.ext[type][name].init();
+                        if ('loadConfig' in src.ext[type][name]) {
+                            src.ext[type][name].loadConfig(objectConfig);
+                        // } else {
+                        //     console.debug('LOAD CONFIG IN ', type, '.', name, ' NOT FOUND');
+                        }
+                        if ('init' in src.ext[type][name]) {
+                            await src.ext[type][name].init();
+                        }
                     } catch (e) {
-
+                        console.error('INIT EXT OBJECT ' + type + ' ' + name + ' FAILED. ERROR: ', e);
                     }
                 }
             }
@@ -112,8 +118,12 @@ class LTools {
             if (objects.hasOwnProperty(name)) {
                 if (onlyName === '' || onlyName === name) {
                     try {
-                        src.ext[type][name].initFinish();
-                    } catch (e) {}
+                        if ('initFinish' in src.ext[type][name]) {
+                            await src.ext[type][name].initFinish();
+                        }
+                    } catch (e) {
+                        console.error('FINISH INIT EXT OBJECT ' + type + ' ' + name + ' FAILED. ERROR: ', e);
+                    }
                 }
             }
         }
