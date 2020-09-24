@@ -1,4 +1,4 @@
-const MVTools = require('mvtools');
+const MVTools = require('mvtools')
 
 /**
  * @class MVLoaderBase
@@ -10,32 +10,31 @@ const MVTools = require('mvtools');
  */
 class MVLoaderBase {
 
-    static exportConfig = {
-        ext: {
-            classes: {},
-            configs: {},
-        }
-    };
+  constructor (...config) {
+    this.caption = ''
+    this.config = {}
+    this.MT = new MVTools
+    this.loadConfig(...config)
+  }
 
-    caption = '';
-    config = {};
-
-    constructor (...config) {
-        this.MT = new MVTools;
-        this.loadConfig(...config);
+  loadConfig (...config) {
+    if (this.MT.empty(this.config)) {
+      this.config = this.MT.copyObject(this.defaults || {})
     }
+    this.config = this.MT.mergeRecursive(this.config, ...config)
+  }
 
-    loadConfig (...config) {
-        if (this.MT.empty(this.config)) {
-            this.config = this.MT.copyObject(this.defaults || {});
-        }
-        this.config = this.MT.mergeRecursive(this.config, ...config);
-    }
+  async init () {}
 
-    async init () {}
-
-    async initFinish () {}
+  async initFinish () {}
 
 }
 
-module.exports = MVLoaderBase;
+MVLoaderBase.exportConfig = {
+  ext: {
+    classes: {},
+    configs: {},
+  }
+}
+
+module.exports = MVLoaderBase
