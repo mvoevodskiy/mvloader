@@ -9,11 +9,10 @@ const MVTools = require('mvtools')
  * @property {MVTools} MT
  */
 class MVLoaderBase {
-
   constructor (...config) {
     this.caption = ''
     this.config = {}
-    this.MT = new MVTools
+    this.MT = new MVTools()
     this.loadConfig(...config)
   }
 
@@ -27,13 +26,12 @@ class MVLoaderBase {
   async init () {}
 
   async initFinish () {}
-
 }
 
 MVLoaderBase.exportConfig = {
   ext: {
     classes: {},
-    configs: {},
+    configs: {}
   }
 }
 

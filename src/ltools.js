@@ -2,13 +2,12 @@
  * @class LTools
  *
  * @property {MVLoader} App
- * @property {MVTools} MT
+ * @property {Object.<import('mvtools')>} MT
  */
 class LTools {
   constructor (App) {
     this.L = App
     this.MT = this.L.MT
-
   }
 
   assignObjectToProcess (assignee) {
@@ -32,12 +31,12 @@ class LTools {
 
   async loadExtConfigs (src, type, onlyName = '') {
     // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG START');
-    let processed = []
+    const processed = []
     let next = this.MT.arrayDiff(Object.keys(src.config.ext.classes[type]), processed)
     while (next.length > 0) {
-      for (let name of next) {
-        if (src.config.ext.classes[type].hasOwnProperty(name)) {
-          if ((onlyName === '' || onlyName === name) && src.config.ext.classes[type][name].hasOwnProperty('exportConfig')) {
+      for (const name of next) {
+        if (Object.prototype.hasOwnProperty.call(src.config.ext.classes[type], name)) {
+          if ((onlyName === '' || onlyName === name) && Object.prototype.hasOwnProperty.call(src.config.ext.classes[type][name], 'exportConfig')) {
             // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG. CONFIG PATH: ' + type + '.' + name + ', CONFIG: ', objectConfig);
 
             if (!this.MT.empty(src.config.ext.classes[type][name].exportConfig)) {
@@ -55,16 +54,16 @@ class LTools {
 
   async raiseExtObjects (src, type, onlyName = '') {
     // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG START');
-    let processed = []
+    const processed = []
     let next = this.MT.arrayDiff(Object.keys(src.config.ext.classes[type]), processed)
     while (next.length > 0) {
-      for (let name of next) {
-        if (src.config.ext.classes[type].hasOwnProperty(name)) {
+      for (const name of next) {
+        if (Object.prototype.hasOwnProperty.call(src.config.ext.classes[type], name)) {
           if (onlyName === '' || onlyName === name) {
             // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG. CONFIG PATH: ' + type + '.' + name + ', CONFIG: ', objectConfig);
 
-            let objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {})
-            let object = await this.raiseClass(src.config.ext.classes[type][name], objectConfig)
+            const objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {})
+            const object = await this.raiseClass(src.config.ext.classes[type][name], objectConfig)
             if (object !== false) {
               src.ext[type] = src.ext[type] || {}
               src.ext[type][name] = object
@@ -82,15 +81,15 @@ class LTools {
 
   async initExtObjects (src, type, onlyName = '') {
     // console.log('MV LOADER TOOLS. INIT CLASSES FROM CONFIG START');
-    let objects = src.ext[type]
+    const objects = src.ext[type]
     if (this.MT.empty(objects)) {
       return
     }
-    for (let name in objects) {
-      if (objects.hasOwnProperty(name)) {
+    for (const name in objects) {
+      if (Object.prototype.hasOwnProperty.call(objects, name)) {
         if (onlyName === '' || onlyName === name) {
           try {
-            let objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {})
+            const objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {})
             if ('loadConfig' in src.ext[type][name]) {
               src.ext[type][name].loadConfig(objectConfig)
               // } else {
@@ -110,12 +109,12 @@ class LTools {
 
   async initFinishExtObjects (src, type, onlyName = '') {
     // console.log('MV LOADER TOOLS. INIT CLASSES FROM CONFIG START');
-    let objects = src.ext[type]
+    const objects = src.ext[type]
     if (this.MT.empty(objects)) {
       return
     }
-    for (let name in objects) {
-      if (objects.hasOwnProperty(name)) {
+    for (const name in objects) {
+      if (Object.prototype.hasOwnProperty.call(objects, name)) {
         if (onlyName === '' || onlyName === name) {
           try {
             if ('initFinish' in src.ext[type][name]) {
@@ -130,17 +129,15 @@ class LTools {
     // console.log('MV LOADER TOOLS. INIT FINISHED CLASSES FROM CONFIG END');
   }
 
-  raiseClass (proto, config = {}) {
+  raiseClass (Proto, config = {}) {
     let object = false
     try {
-      object = new proto(this.L, config)
+      object = new Proto(this.L, config)
     } catch (e) {
-      object = false
-      console.error('RAISE CLASS ' + proto.name + ' FAILED. SKIPPED. ERROR: ', e)
+      console.error('RAISE CLASS ' + Proto.name + ' FAILED. SKIPPED. ERROR: ', e)
     }
     return object
   }
-
 }
 
 module.exports = LTools

@@ -1,4 +1,3 @@
-const MVTools = require('mvtools')
 const MVLoaderBase = require('./mvloaderbase')
 const LTools = require('./ltools')
 
@@ -10,35 +9,33 @@ const LTools = require('./ltools')
  * @property {Object} defaults
  * @property {Object} handlers
  *
- * @property {MVTools} MT
+ * @property {import('mvtools)} MT
  * @property {LTools} LTools
  */
 class MVLoader extends MVLoaderBase {
-
   constructor (...config) {
-
-    let defaults = {
+    const defaults = {
       ext: {
         classes: {
           semis: {},
           controllers: {},
-          handlers: {},
+          handlers: {}
         },
         configs: {
           controllers: {},
           handlers: {},
-          semis: {},
+          semis: {}
         }
       },
       db: {
-        name: 'mvloader',
-      },
+        name: 'mvloader'
+      }
     }
     super(defaults, ...config)
     this.ext = {
       semis: {},
       controllers: {},
-      handlers: {},
+      handlers: {}
     }
     this.DB = null
     this.services = {}
@@ -55,19 +52,19 @@ class MVLoader extends MVLoaderBase {
   }
 
   async loadExtConfigs () {
-    for (let type of Object.keys(this.config.ext.classes)) {
+    for (const type of Object.keys(this.config.ext.classes)) {
       await this.LTools.loadExtConfigs(this, type)
     }
   }
 
   async raiseExtObjects () {
-    for (let type of Object.keys(this.config.ext.classes)) {
+    for (const type of Object.keys(this.config.ext.classes)) {
       await this.LTools.raiseExtObjects(this, type)
     }
   }
 
   async initExtObjects () {
-    for (let type of Object.keys(this.ext)) {
+    for (const type of Object.keys(this.ext)) {
       await this.LTools.initExtObjects(this, type)
     }
   }
@@ -77,11 +74,10 @@ class MVLoader extends MVLoaderBase {
     if (!this.MT.empty(this.DB) && this.MT.empty(this.services.DB)) {
       this.services.DB = this.DB
     }
-    for (let type of Object.keys(this.ext)) {
+    for (const type of Object.keys(this.ext)) {
       await this.LTools.initFinishExtObjects(this, type)
     }
   }
-
 }
 
 module.exports = { MVLoader, MVLoaderBase }
