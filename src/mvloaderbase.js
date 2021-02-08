@@ -1,4 +1,5 @@
 const MVTools = require('mvtools')
+const { MiddlewareManager } = require('js-middleware')
 
 /**
  * @class MVLoaderBase
@@ -11,9 +12,11 @@ const MVTools = require('mvtools')
 class MVLoaderBase {
   constructor (...config) {
     this.caption = ''
-    this.config = {}
+    this.config = { middlewares: [] }
     this.MT = new MVTools()
     this.loadConfig(...config)
+    this.MiddlewareManager = new MiddlewareManager(this)
+    this.useMultiple(this.config.middlewares)
   }
 
   loadConfig (...config) {
@@ -26,6 +29,23 @@ class MVLoaderBase {
   async init () {}
 
   async initFinish () {}
+
+  useMultiple (middlewares) {
+    if (Array.isArray(middlewares)) {
+      for (const Middleware of middlewares) {
+        this.use(new Middleware(this))
+      }
+    }
+  }
+
+  use (step, method) {
+    if (typeof step === 'string') {
+      this.MiddlewareManager.use(step, method)
+    } else {
+      method = step
+      this.MiddlewareManager.use(method)
+    }
+  }
 }
 
 MVLoaderBase.exportConfig = {
