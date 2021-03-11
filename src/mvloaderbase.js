@@ -2,6 +2,13 @@ const MVTools = require('mvtools')
 const { MiddlewareManager } = require('js-middleware')
 
 /**
+ * @typedef {Object} basicResponse
+ * @property {boolean} success
+ * @property {string} message
+ * @property {Object<string, *>} data
+ */
+
+/**
  * @class MVLoaderBase
  *
  * @property {Object} config
@@ -45,6 +52,41 @@ class MVLoaderBase {
       method = step
       this.MiddlewareManager.use(method)
     }
+  }
+
+  /**
+   *
+   * @param {boolean} success
+   * @param {string} message=''
+   * @param {Object} data={}
+   * @param {int|string|boolean} code=false
+   * @return {basicResponse}
+   */
+  response (success, message = '', data = {}, code = false) {
+    if (code !== false) data.code = code
+    return { success, message, data }
+  }
+
+  /**
+   *
+   * @param {string} message=''
+   * @param {Object} data={}
+   * @param {int|string|boolean} code=false
+   * @return {basicResponse}
+   */
+  failure (message = '', data = {}, code = false) {
+    return this.response(false, message, data, code)
+  }
+
+  /**
+   *
+   * @param {string} message=''
+   * @param {Object} data={}
+   * @param {int|string|boolean} code=false
+   * @return {basicResponse}
+   */
+  success (message = '', data = {}, code = false) {
+    return this.response(true, message, data, code)
   }
 }
 
