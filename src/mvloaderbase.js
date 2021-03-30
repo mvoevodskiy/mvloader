@@ -40,18 +40,28 @@ class MVLoaderBase {
   useMultiple (middlewares) {
     if (Array.isArray(middlewares)) {
       for (const Middleware of middlewares) {
-        this.use(new Middleware(this))
+        if (Array.isArray(Middleware)) this.use(Middleware[0], Middleware[1])
+        else this.use(new Middleware(this))
       }
     }
   }
 
   use (step, method) {
-    if (typeof step === 'string') {
-      this.MiddlewareManager.use(step, method)
-    } else {
-      method = step
+    let applied = false
+    if (method !== undefined) {
+      if (typeof method === 'string') {
+        method = this.MT.extract(method)
+      }
+      if (!this.MT.empty(method)) {
+        this.MiddlewareManager.use(step, method)
+        applied = true
+      }
+    } else if (!this.MT.empty(step)) {
+      method = typeof step === 'string' ? this.MT.extract(step) : step
       this.MiddlewareManager.use(method)
+      applied = true
     }
+    if (!applied) console.error('MIDDLEWARE APPLY FAILED IN', this.constructor.name)
   }
 
   /**
