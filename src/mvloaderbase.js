@@ -107,4 +107,8 @@ MVLoaderBase.exportConfig = {
   }
 }
 
-module.exports = MVLoaderBase
+module.exports = {
+  /** @type {basicResponse} */
+  basicResponse: { success: true, message: '', data: {}, code: '' },
+  MVLoaderBase
+}

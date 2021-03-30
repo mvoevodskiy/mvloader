@@ -1,4 +1,4 @@
-const MVLoaderBase = require('./mvloaderbase')
+const { MVLoaderBase, basicResponse } = require('./mvloaderbase')
 const LTools = require('./ltools')
 
 /**
@@ -80,4 +80,4 @@ class MVLoader extends MVLoaderBase {
   }
 }
 
-module.exports = { MVLoader, MVLoaderBase }
+module.exports = { MVLoader, MVLoaderBase, basicResponse }
