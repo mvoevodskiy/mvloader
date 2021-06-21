@@ -18,6 +18,6 @@
   "homepage": "https://github.com/mvoevodskiy/mvloader#readme",
   "dependencies": {
     "js-middleware": "^0.3.1",
-    "mvtools": "^1.0.18"
+    "mvtools": "^1.1.2"
   }
 }
