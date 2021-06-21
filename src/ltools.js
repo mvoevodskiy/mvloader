@@ -79,6 +79,29 @@ class LTools {
     // console.log('MV LOADER TOOLS. LOAD CLASSES FROM CONFIG END');
   }
 
+  async applyMiddlewares (src, type, onlyName = '') {
+    // console.log('MV LOADER TOOLS. INIT CLASSES FROM CONFIG START');
+    const objects = src.ext[type]
+    if (this.MT.empty(objects)) {
+      return
+    }
+    for (const name in objects) {
+      if (Object.prototype.hasOwnProperty.call(objects, name)) {
+        if (onlyName === '' || onlyName === name) {
+          try {
+            const objectConfig = this.MT.extract(type + '.' + name, src.config.ext.configs, {})
+            if ('middlewares' in objectConfig && Array.isArray(objectConfig.middlewares) && 'useMultiple' in src.ext[type][name]) {
+              src.ext[type][name].useMultiple(objectConfig.middlewares)
+            }
+          } catch (e) {
+            console.error('APPLY MIDDLEWARES FOR EXT OBJECT ' + type + ' ' + name + ' FAILED. ERROR: ', e)
+          }
+        }
+      }
+    }
+    // console.log('MV LOADER TOOLS. APPLY MIDDLEWARES FOR CLASSES FROM CONFIG END');
+  }
+
   async initExtObjects (src, type, onlyName = '') {
     // console.log('MV LOADER TOOLS. INIT CLASSES FROM CONFIG START');
     const objects = src.ext[type]

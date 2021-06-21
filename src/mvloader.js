@@ -47,6 +47,7 @@ class MVLoader extends MVLoaderBase {
     return Promise.resolve()
       .then(() => this.loadExtConfigs())
       .then(() => this.raiseExtObjects())
+      .then(() => this.applyMiddlewares())
       .then(() => this.initExtObjects())
       .then(() => this.initFinishExtObjects())
   }
@@ -54,6 +55,12 @@ class MVLoader extends MVLoaderBase {
   async loadExtConfigs () {
     for (const type of Object.keys(this.config.ext.classes)) {
       await this.LTools.loadExtConfigs(this, type)
+    }
+  }
+
+  async applyMiddlewares () {
+    for (const type of Object.keys(this.config.ext.classes)) {
+      await this.LTools.applyMiddlewares(this, type)
     }
   }
 

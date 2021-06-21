@@ -23,7 +23,7 @@ class MVLoaderBase {
     this.MT = new MVTools()
     this.loadConfig(...config)
     this.MiddlewareManager = new MiddlewareManager(this)
-    this.useMultiple(this.config.middlewares)
+    this.appliedMiddlewares = false
   }
 
   loadConfig (...config) {
@@ -33,7 +33,9 @@ class MVLoaderBase {
     this.config = this.MT.mergeRecursive(this.config, ...config)
   }
 
-  async init () {}
+  async init () {
+    if (!this.appliedMiddlewares) this.useMultiple(this.config.middlewares)
+  }
 
   async initFinish () {}
 
@@ -44,9 +46,11 @@ class MVLoaderBase {
         else this.use(new Middleware(this))
       }
     }
+    this.appliedMiddlewares = true
   }
 
   use (step, method) {
+    // console.log(step, method)
     let applied = false
     if (method !== undefined) {
       if (typeof method === 'string') {
@@ -60,8 +64,10 @@ class MVLoaderBase {
       method = typeof step === 'string' ? this.MT.extract(step) : step
       this.MiddlewareManager.use(method)
       applied = true
+    } else {
+      console.log('MW APPLY ERROR. DEFAULT ELSE')
     }
-    if (!applied) console.error('MIDDLEWARE APPLY FAILED IN', this.constructor.name)
+    if (!applied) console.error('MIDDLEWARE APPLY FAILED IN', this.constructor.name, 'STEP', step, method)
   }
 
   /**
